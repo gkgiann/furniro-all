@@ -17,4 +17,11 @@ export default class AuthController {
     const result = await this.authService.login(dto);
     res.status(StatusCodes.OK).send(result);
   }
+
+  async me(req: Request, res: Response) {
+    const userId = req.user?.id;
+    if (!userId) throw new Error("Unauthorized.");
+    const user = await this.authService.getMe(userId);
+    res.status(StatusCodes.OK).send(user);
+  }
 }

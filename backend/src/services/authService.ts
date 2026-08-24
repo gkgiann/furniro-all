@@ -70,4 +70,16 @@ export default class AuthService {
     const { passwordHash: _, ...publicUser } = user;
     return { token, user: publicUser as UserPublic };
   }
+
+  async getMe(userId: string): Promise<UserPublic> {
+    if (!userId) {
+      throw new AppError("Unauthorized.", 401);
+    }
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      throw new AppError("User not found.", 404);
+    }
+    const { passwordHash: _, ...publicUser } = user;
+    return publicUser as UserPublic;
+  }
 }

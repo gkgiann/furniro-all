@@ -8,7 +8,6 @@ import productsRouter from "./routes/productRouter";
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 app.use(
