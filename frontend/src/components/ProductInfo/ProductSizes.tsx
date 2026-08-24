@@ -14,7 +14,7 @@ const ProductSizes = ({ sizes, selectedSize, onSelect }: ProductSizesProps) => {
           <button
             key={size}
             onClick={() => onSelect(size)}
-            className={`flex h-[30px] min-w-[30px] p-2 items-center justify-center rounded-md text-sm ${
+            className={`flex h-[30px] min-w-[30px] p-2 items-center justify-center rounded-md text-sm cursor-pointer ${
               selectedSize === size
                 ? "bg-over-secundary text-white"
                 : "bg-[#F9F1E7]"

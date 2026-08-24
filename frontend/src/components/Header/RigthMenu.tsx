@@ -3,12 +3,14 @@ import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../../stores/auth.store";
 import { useCartStore } from "../../stores/cart.store";
+import { useUIStore } from "../../stores/ui.store";
 
 type RightMenuProps = {
   className?: string;
 };
 const RightMenu = ({ className }: RightMenuProps) => {
   const totalItems = useCartStore((s) => s.getTotalItems());
+  const openCart = useUIStore((s) => s.openCart);
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
   const navigate = useNavigate();
@@ -44,12 +46,8 @@ const RightMenu = ({ className }: RightMenuProps) => {
           />
         </Link>
       )}
-      <Link to="/cart" className={clsx(LinkHover, "relative")}>
-        <img
-          src="/Icons/shop.svg"
-          alt="Ícone de usuário"
-          className={clsx("max-h-[22.05px]")}
-        />
+      <button onClick={openCart} className={clsx(LinkHover, "relative")} aria-label="Open cart">
+        <img src="/Icons/shop.svg" alt="Cart" className={clsx("max-h-[22.05px]")} />
         {totalItems > 0 && (
           <span
             className={clsx(
@@ -64,7 +62,7 @@ const RightMenu = ({ className }: RightMenuProps) => {
             {totalItems}
           </span>
         )}
-      </Link>
+      </button>
     </div>
   );
 };

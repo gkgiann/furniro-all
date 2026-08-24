@@ -18,7 +18,7 @@ const ProductColors = ({
           <button
             key={color}
             onClick={() => onSelect(color)}
-            className={`h-[30px] w-[30px] rounded-full border-2 border-gray-200 ${
+            className={`h-[30px] w-[30px] rounded-full border-2 border-gray-200 cursor-pointer ${
               selectedColor === color ? "ring-2 ring-black ring-offset-2" : ""
             }`}
             style={{
