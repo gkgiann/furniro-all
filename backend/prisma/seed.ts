@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -193,6 +194,9 @@ const generatedProducts = Array.from({ length: 23 }).map((_, index) => {
 async function main() {
   console.log("🌱 Iniciando o seed do banco de dados SQLite com Prisma...");
 
+  await prisma.user.deleteMany();
+  console.log("🧹 Usuários antigos removidos.");
+
   await prisma.product.deleteMany();
   console.log("🧹 Produtos antigos removidos.");
 
@@ -203,6 +207,16 @@ async function main() {
       data: product,
     });
   }
+
+  const testPasswordHash = await bcrypt.hash("Test123!", 10);
+  await prisma.user.create({
+    data: {
+      name: "Test User",
+      email: "test@furniro.test",
+      passwordHash: testPasswordHash,
+    },
+  });
+  console.log("👤 Usuário de teste criado: test@furniro.test / Test123!");
 
   console.log(
     `✅ Seed concluído com sucesso! Total de ${allProducts.length} produtos cadastrados com URLs do Cloudinary.`,
