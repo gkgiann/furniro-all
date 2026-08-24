@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import AppError from "../exceptions/appError";
 import { UserCreateDTO, UserPublic } from "../model/user";
 import { PrismaUserRepository } from "../repositories/prismaUserRepository";
@@ -38,5 +39,35 @@ export default class AuthService {
 
     const { passwordHash: _, ...publicUser } = user;
     return publicUser as UserPublic;
+  }
+
+  async login(dto: { email: string; password: string }): Promise<{ token: string; user: UserPublic }> {
+    const { email, password } = dto;
+
+    if (!email || !password) {
+      throw new AppError("Missing required fields: email and password are required.", 400);
+    }
+
+    const user = await this.userRepository.findByEmail(email.trim().toLowerCase());
+    if (!user) {
+      throw new AppError("Invalid credentials.", 401);
+    }
+
+    const isValid = await bcrypt.compare(password, user.passwordHash);
+    if (!isValid) {
+      throw new AppError("Invalid credentials.", 401);
+    }
+
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new AppError("JWT_SECRET is not configured.", 500);
+    }
+
+    const expiresIn = process.env.JWT_EXPIRES_IN ?? "7d";
+
+    const token = jwt.sign({ userId: user.id, email: user.email }, secret, { expiresIn } as jwt.SignOptions);
+
+    const { passwordHash: _, ...publicUser } = user;
+    return { token, user: publicUser as UserPublic };
   }
 }

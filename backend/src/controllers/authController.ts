@@ -11,4 +11,10 @@ export default class AuthController {
     const user = await this.authService.register(dto);
     res.status(StatusCodes.CREATED).send(user);
   }
+
+  async login(req: Request, res: Response) {
+    const dto = req.body as { email: string; password: string };
+    const result = await this.authService.login(dto);
+    res.status(StatusCodes.OK).send(result);
+  }
 }
