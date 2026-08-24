@@ -3,6 +3,7 @@ import { RootLayout } from "./layout";
 import { ScrollToTop } from "./components/ScrollToTop/ScrollToTop";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import { Cart } from "./pages/Cart";
+import { Checkout } from "./pages/Checkout";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
@@ -25,7 +26,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route element={<ProtectedRoute />}>
-            {/* US-11 checkout and US-15 contact will be added here in Sprint 2 */}
+            <Route path="/checkout" element={<Checkout />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
