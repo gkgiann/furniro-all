@@ -3,6 +3,7 @@ import { RootLayout } from "./layout";
 import { ScrollToTop } from "./components/ScrollToTop/ScrollToTop";
 import { Cart } from "./pages/Cart";
 import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
 import { Shop } from "./pages/Shop";
 import { SingleProduct } from "./pages/SingleProduct";
 import { NotFound } from "./components/NotFound";
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/product/:id" element={<SingleProduct />} />
           <Route path="/product/slug/:slug" element={<SingleProduct />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
