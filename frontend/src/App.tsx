@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import { RootLayout } from "./layout";
 import { ScrollToTop } from "./components/ScrollToTop/ScrollToTop";
+import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import { Cart } from "./pages/Cart";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
@@ -23,6 +24,9 @@ export default function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route element={<ProtectedRoute />}>
+            {/* US-11 checkout and US-15 contact will be added here in Sprint 2 */}
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
