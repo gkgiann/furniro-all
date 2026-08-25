@@ -4,6 +4,7 @@ import { ScrollToTop } from "./components/ScrollToTop/ScrollToTop";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import { Cart } from "./pages/Cart";
 import { Checkout } from "./pages/Checkout";
+import { Contact } from "./pages/Contact";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/contact" element={<Contact />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
