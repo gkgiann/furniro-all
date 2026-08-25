@@ -6,6 +6,7 @@ import { z } from "zod";
 import { login } from "@/services/auth.service";
 import { useAuthStore } from "@/stores/auth.store";
 import PageBanner from "@/components/Shop/PageBanner";
+import { AxiosError } from "axios";
 
 const loginSchema = z.object({
   email: z.email("Enter a valid email."),
@@ -20,9 +21,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export function Login() {
   const navigate = useNavigate();
   const location = useLocation();
-  const from =
-    (location.state as { from?: { pathname: string } } | null)?.from
-      ?.pathname ?? "/";
+  const from = location.state?.from?.pathname || "/";
 
   const {
     register,
@@ -40,15 +39,14 @@ export function Login() {
       toast.success("Login successful!");
       navigate(from, { replace: true });
     } catch (err: unknown) {
-      const message =
-        err instanceof Error
-          ? err.message
-          : ((err as { response?: { data?: { error?: string } } })?.response
-              ?.data?.error ?? "Invalid credentials.");
+      let message = "Error logging in. Please try again.";
 
-      const axiosError = err as { response?: { data?: { error?: string } } };
-      const apiMessage = axiosError.response?.data?.error;
-      toast.error(apiMessage ?? message);
+      if (err instanceof AxiosError && err.response) {
+        message =
+          err.response.data.error ?? "Error logging in. Please try again.";
+      }
+
+      toast.error(message);
     }
   }
 
