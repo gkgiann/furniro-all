@@ -1,6 +1,6 @@
 import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router";
-import { CartSidebar } from "./components/Cart/CartSidebar";
+import { CartDrawer } from "./components/Cart/CartDrawer";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 
@@ -9,7 +9,7 @@ export function RootLayout() {
     <>
       <Toaster />
       <Header />
-      <CartSidebar />
+      <CartDrawer />
       <Outlet />
       <Footer />
     </>

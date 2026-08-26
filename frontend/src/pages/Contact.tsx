@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Benefits from "@/components/Benefits/Benefits";
 import PageBanner from "@/components/Shop/PageBanner";
+import { ContactInfoItem } from "@/components/Contact/ContactInfoItem";
 import { Input } from "@/components/ui/Input";
 import { contactSchema, type ContactFormData } from "@/schemas/contact.schema";
 
@@ -33,29 +34,21 @@ export function Contact() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="flex flex-col gap-10">
-            <div className="flex gap-7.5">
-              <img src="/Icons/address.svg" alt="Address" className="h-6 w-6 shrink-0 mt-1" />
-              <div>
-                <h3 className="text-2xl font-medium text-over-primary">Address</h3>
-                <p className="mt-1">236 5th SE Avenue, New York NY1000, United States</p>
-              </div>
-            </div>
-            <div className="flex gap-7.5">
-              <img src="/Icons/phone.svg" alt="Phone" className="h-6 w-6 shrink-0 mt-1" />
-              <div>
-                <h3 className="text-2xl font-medium text-over-primary">Phone</h3>
-                <p className="mt-1 ">Mobile: +(84) 546-6789</p>
-                <p>Hotline: +(84) 456-6789</p>
-              </div>
-            </div>
-            <div className="flex gap-7.5">
-              <img src="/Icons/working-time.svg" alt="Working Time" className="h-6 w-6 shrink-0 mt-1" />
-              <div>
-                <h3 className="text-2xl font-medium text-over-primary">Working Time</h3>
-                <p className="mt-1 ">Monday-Friday: 9:00 – 22:00</p>
-                <p>Saturday-Sunday: 9:00 – 21:00</p>
-              </div>
-            </div>
+            <ContactInfoItem
+              iconSrc="/Icons/address.svg"
+              title="Address"
+              lines={["236 5th SE Avenue, New York NY1000, United States"]}
+            />
+            <ContactInfoItem
+              iconSrc="/Icons/phone.svg"
+              title="Phone"
+              lines={["Mobile: +(84) 546-6789", "Hotline: +(84) 456-6789"]}
+            />
+            <ContactInfoItem
+              iconSrc="/Icons/working-time.svg"
+              title="Working Time"
+              lines={["Monday-Friday: 9:00 – 22:00", "Saturday-Sunday: 9:00 – 21:00"]}
+            />
           </div>
           <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-9">
             <Input id="yourName" label="Your name" error={errors.yourName?.message} {...register("yourName")} />

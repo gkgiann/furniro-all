@@ -5,7 +5,7 @@ import { formatPrice } from "@/utils/price";
 import { useCartStore } from "@/stores/cart.store";
 import { useUIStore } from "@/stores/ui.store";
 
-export function CartSidebar() {
+export function CartDrawer() {
   const isOpen = useUIStore((s) => s.isCartOpen);
   const closeCart = useUIStore((s) => s.closeCart);
   const items = useCartStore((s) => s.items);
