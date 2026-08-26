@@ -1,18 +1,15 @@
 import clsx from "clsx";
-import { Link, useNavigate } from "react-router";
-import { getImage } from "@/lib/assets";
-import { formatPrice } from "@/utils/price";
 import { useCartStore } from "@/stores/cart.store";
 import { useUIStore } from "@/stores/ui.store";
+import { CartDrawerFooter } from "./CartDrawerFooter";
+import { CartDrawerItem } from "./CartDrawerItem";
 
 export function CartDrawer() {
   const isOpen = useUIStore((s) => s.isCartOpen);
   const closeCart = useUIStore((s) => s.closeCart);
   const items = useCartStore((s) => s.items);
   const removeItem = useCartStore((s) => s.removeItem);
-  const getSubtotal = useCartStore((s) => s.getSubtotal());
   const isEmpty = useCartStore((s) => s.isEmpty());
-  const navigate = useNavigate();
 
   return (
     <>
@@ -58,73 +55,18 @@ export function CartDrawer() {
           ) : (
             <div className="flex flex-col gap-5">
               {items.map((item) => (
-                <div key={item.id} className="flex items-center gap-4">
-                  <Link to={`/product/${item.id}`} onClick={closeCart}>
-                    <img
-                      src={getImage(item.image)}
-                      alt={item.name}
-                      className="h-26.25 w-26.25 rounded-[10px] object-cover bg-cart"
-                    />
-                  </Link>
-                  <div className="flex flex-1 flex-col gap-1">
-                    <p className="text-over-primary">{item.name}</p>
-                    <p className="flex items-center gap-1 text-[16px] font-light text-over-primary">
-                      <span>{item.quantity}</span>{" "}
-                      <span className="mx-1">×</span>{" "}
-                      <span className="text-[12px] font-medium text-over-secundary">
-                        {formatPrice(item.price)}
-                      </span>
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => removeItem(item.id)}
-                    aria-label={`Remove ${item.name}`}
-                    className="flex h-5 w-5 items-center justify-center cursor-pointer transition hover:opacity-70"
-                  >
-                    <img
-                      src="/Icons/close-item.svg"
-                      alt="Remove"
-                      className="h-5 w-5"
-                    />
-                  </button>
-                </div>
+                <CartDrawerItem
+                  key={item.id}
+                  item={item}
+                  onRemove={removeItem}
+                  onClose={closeCart}
+                />
               ))}
             </div>
           )}
         </div>
 
-        {!isEmpty && (
-          <div className="px-7 py-6">
-            <div className="flex items-center gap-25 pb-6">
-              <span className="text-base  text-over-primary">Subtotal</span>
-              <span className="text-base font-semibold text-over-secundary">
-                {formatPrice(getSubtotal)}
-              </span>
-            </div>
-            <div className="-mx-7 h-px bg-footer" />
-
-            <div className="flex justify-center gap-3 pt-6">
-              <button
-                onClick={() => {
-                  closeCart();
-                  navigate("/cart");
-                }}
-                className="rounded-full border border-over-primary bg-primary px-7.5 py-1.5 text-xs font-medium text-over-primary transition hover:bg-over-primary hover:text-primary cursor-pointer"
-              >
-                Cart
-              </button>
-              <button
-                onClick={() => {
-                  closeCart();
-                  navigate("/checkout");
-                }}
-                className="rounded-full border border-over-primary bg-primary px-7.5 py-1.5 text-xs font-medium text-over-primary transition hover:bg-over-primary hover:text-primary cursor-pointer"
-              >
-                Checkout
-              </button>
-            </div>
-          </div>
-        )}
+        {!isEmpty && <CartDrawerFooter />}
       </aside>
     </>
   );
