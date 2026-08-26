@@ -2,21 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router";
-import { z } from "zod";
 import { login } from "@/services/auth.service";
 import { useAuthStore } from "@/stores/auth.store";
 import PageBanner from "@/components/Shop/PageBanner";
+import { Input } from "@/components/ui/Input";
+import { loginSchema, type LoginFormData } from "@/schemas/auth.schema";
 import { AxiosError } from "axios";
-
-const loginSchema = z.object({
-  email: z.email("Enter a valid email."),
-  password: z
-    .string()
-    .min(1, "Password is required.")
-    .min(6, "Password must be at least 6 characters."),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
 
 export function Login() {
   const navigate = useNavigate();
@@ -66,43 +57,15 @@ export function Login() {
         >
           <h2 className="text-2xl font-semibold text-over-primary">Login</h2>
 
-          <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="email"
-              className="text-sm font-medium text-over-primary"
-            >
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Abc@def.com"
-              {...register("email")}
-              className="w-full rounded-lg border border-footer-gray bg-primary px-4 py-3 text-sm text-primary-text outline-none placeholder:text-footer-gray focus:border-over-secundary"
-            />
-            {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="password"
-              className="text-sm font-medium text-over-primary"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              {...register("password")}
-              className="w-full rounded-lg border border-footer-gray bg-primary px-4 py-3 text-sm text-primary-text outline-none placeholder:text-footer-gray focus:border-over-secundary"
-            />
-            {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
-            )}
-          </div>
+          <Input id="email" label="Email" type="email" placeholder="Abc@def.com" error={errors.email?.message} {...register("email")} />
+          <Input
+            id="password"
+            label="Password"
+            type="password"
+            placeholder="••••••••"
+            error={errors.password?.message}
+            {...register("password")}
+          />
 
           <button
             type="submit"
