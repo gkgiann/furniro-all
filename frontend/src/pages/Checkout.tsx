@@ -60,7 +60,7 @@ export function Checkout() {
     }
   }
 
-  function onSubmit(_data: CheckoutFormData) {
+  function onSubmit() {
     if (isEmpty()) {
       toast.error("Cart is empty.");
       return;

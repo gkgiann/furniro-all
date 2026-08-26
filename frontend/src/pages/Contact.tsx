@@ -17,19 +17,27 @@ export function Contact() {
     resolver: zodResolver(contactSchema),
   });
 
-  function onSubmit(_data: ContactFormData) {
+  function onSubmit() {
     toast.success("Message sent successfully!");
     reset();
   }
 
   return (
     <div>
-      <PageBanner breadcrumbCurrent="Contact" breadcrumbHome="Home" title="Contact" />
+      <PageBanner
+        breadcrumbCurrent="Contact"
+        breadcrumbHome="Home"
+        title="Contact"
+      />
       <div className="max-w-310 mx-auto px-4 py-16">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-semibold text-over-primary">Get In Touch With Us</h2>
+          <h2 className="text-4xl font-semibold text-over-primary">
+            Get In Touch With Us
+          </h2>
           <p className="mx-auto mt-3 max-w-xl text-footer-gray">
-            For More Information About Our Product & Services. Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!
+            For More Information About Our Product & Services. Please Feel Free
+            To Drop Us An Email. Our Staff Always Be There To Help You Out. Do
+            Not Hesitate!
           </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -47,11 +55,23 @@ export function Contact() {
             <ContactInfoItem
               iconSrc="/Icons/working-time.svg"
               title="Working Time"
-              lines={["Monday-Friday: 9:00 – 22:00", "Saturday-Sunday: 9:00 – 21:00"]}
+              lines={[
+                "Monday-Friday: 9:00 – 22:00",
+                "Saturday-Sunday: 9:00 – 21:00",
+              ]}
             />
           </div>
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-9">
-            <Input id="yourName" label="Your name" error={errors.yourName?.message} {...register("yourName")} />
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="flex flex-col gap-9"
+          >
+            <Input
+              id="yourName"
+              label="Your name"
+              error={errors.yourName?.message}
+              {...register("yourName")}
+            />
             <Input
               id="email"
               label="Email address"
@@ -60,7 +80,12 @@ export function Contact() {
               error={errors.email?.message}
               {...register("email")}
             />
-            <Input id="subject" label="Subject" placeholder="This is an optional" {...register("subject")} />
+            <Input
+              id="subject"
+              label="Subject"
+              placeholder="This is an optional"
+              {...register("subject")}
+            />
             <Input
               id="message"
               label="Message"

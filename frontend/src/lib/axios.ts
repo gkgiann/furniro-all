@@ -14,7 +14,9 @@ api.interceptors.request.use((config) => {
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
-    } catch {}
+    } catch {
+      // só pra o typescript não reclamar, não precisa fazer nada aqui
+    }
   }
   return config;
 });
