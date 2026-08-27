@@ -1,29 +1,53 @@
 import clsx from "clsx";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import toast from "react-hot-toast";
+import { useAuthStore } from "../../stores/auth.store";
 import { useCartStore } from "../../stores/cart.store";
+import { useUIStore } from "../../stores/ui.store";
 
 type RightMenuProps = {
   className?: string;
 };
 const RightMenu = ({ className }: RightMenuProps) => {
   const totalItems = useCartStore((s) => s.getTotalItems());
+  const openCart = useUIStore((s) => s.openCart);
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
+  const navigate = useNavigate();
 
   const LinkHover: string = "hover:cursor-pointer hover:scale-110 transition";
+
+  function handleLogout() {
+    logout();
+    toast.success("Logged out.");
+    navigate("/");
+  }
+
   return (
-    <div className={clsx("flex gap-[33.66px]", className)}>
-      <a className={clsx(LinkHover)}>
-        <img
-          src="/Icons/alert.svg"
-          alt="Ícone de alerta"
-          className={clsx("max-h-[18.66px]")}
-        />
-      </a>
-      <Link to="/cart" className={clsx(LinkHover, "relative")}>
-        <img
-          src="/Icons/shop.svg"
-          alt="Ícone de usuário"
-          className={clsx("max-h-[22.05px]")}
-        />
+    <div className={clsx("flex items-center gap-[33.66px]", className)}>
+      {user ? (
+        <div className="flex items-center gap-3">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-over-secundary text-sm font-medium text-primary">
+            {user.name.charAt(0).toUpperCase()}
+          </span>
+          <button
+            onClick={handleLogout}
+            className="cursor-pointer text-sm font-medium text-over-primary hover:text-over-secundary transition"
+          >
+            Logout
+          </button>
+        </div>
+      ) : (
+        <Link to="/login" className={clsx(LinkHover)}>
+          <img
+            src="/Icons/alert.svg"
+            alt="User"
+            className={clsx("max-h-[18.66px]")}
+          />
+        </Link>
+      )}
+      <button onClick={openCart} className={clsx(LinkHover, "relative")} aria-label="Open cart">
+        <img src="/Icons/shop.svg" alt="Cart" className={clsx("max-h-[22.05px]")} />
         {totalItems > 0 && (
           <span
             className={clsx(
@@ -38,7 +62,7 @@ const RightMenu = ({ className }: RightMenuProps) => {
             {totalItems}
           </span>
         )}
-      </Link>
+      </button>
     </div>
   );
 };

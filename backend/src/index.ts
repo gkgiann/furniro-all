@@ -3,11 +3,11 @@ import express, { Request, Response } from "express";
 
 import errorHandler from "./middlewares/errorHandler";
 import { requestLogger } from "./middlewares/loggerMiddleware";
+import authRouter from "./routes/authRouter";
 import productsRouter from "./routes/productRouter";
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 app.use(
@@ -25,6 +25,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/products", productsRouter);
+app.use("/auth", authRouter);
 
 app.use(errorHandler);
 
